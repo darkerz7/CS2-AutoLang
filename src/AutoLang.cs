@@ -1,14 +1,16 @@
 ﻿using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
+using CounterStrikeSharp.API.Core.Attributes;
 using CounterStrikeSharp.API.Core.Capabilities;
 using CounterStrikeSharp.API.Core.Translations;
-using PlayerSettings;
-using System.Globalization;
 using MaxMind.GeoIP2;
 using MaxMind.GeoIP2.Exceptions;
+using PlayerSettings;
+using System.Globalization;
 
 namespace CS2_AutoLang
 {
+    [MinimumApiVersion(369)]
     public class AutoLang : BasePlugin
 	{
 		private ISettingsApi? _PlayerSettingsAPI;
@@ -16,7 +18,7 @@ namespace CS2_AutoLang
 		public override string ModuleName => "Auto Lang";
 		public override string ModuleDescription => "Remembers the language selected by the player";
 		public override string ModuleAuthor => "DarkerZ [RUS]";
-		public override string ModuleVersion => "1.DZ.0";
+		public override string ModuleVersion => "1.DZ.1";
 		public override void OnAllPluginsLoaded(bool hotReload)
 		{
 			_PlayerSettingsAPI = _PlayerSettingsAPICapability.Get();
@@ -60,7 +62,7 @@ namespace CS2_AutoLang
 		}
 		private void SetLanguage(CCSPlayerController? player)
 		{
-			if (_PlayerSettingsAPI != null && player != null && player.IsValid && (player.Connected == PlayerConnectedState.PlayerConnected) && !player.IsBot)
+			if (_PlayerSettingsAPI != null && player != null && player.IsValid && (player.Connected == PlayerConnectedState.Connected) && !player.IsBot)
 			{
 				string language = player.GetLanguage().Name;
 				if (language != null) _PlayerSettingsAPI.SetPlayerSettingsValue(player, "lang", language);
